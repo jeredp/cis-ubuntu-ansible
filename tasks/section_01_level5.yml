@@ -13,24 +13,26 @@
     lineinfile:
       dest: '/etc/security/limits.conf'
       line: '* hard core 0'
-      state: present
-      insertbefore: '^# End of file'
-    when: hard_core.rc != 0
     tags:
       - section1
       - section1.5
       - section1.5.1
 
-  - name: 1.5.1 Ensure core dumps are restricted (Scored)
-    sysctl:
-      name: fs.suid_dumpable
-      value: 0
-      state: present
-    when: restrict_core_dumps == True
+  - name: 1.5.1 - add default directly to file
+    lineinfile:
+      path: "/etc/sysctl.conf"
+      line: "fs.suid_dumpable = 0"
     tags:
-      - section1
-      - section1.5
-      - section1.5.1
+      - level-1
+      - section-1
+      - "1.5.1"
+
+  - name: 1.5.1 Ensure core dumps are restricted
+    shell: "sysctl -w fs.suid_dumpable=0"
+    tags:
+      - level-1
+      - section-1
+      - "1.5.1"
 
   - name: 1.5.2 Ensure XD/NX support is enabled (Not Scored)
     shell: 'dmesg | grep NX'

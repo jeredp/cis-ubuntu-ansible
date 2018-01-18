@@ -362,18 +362,23 @@
       - section2.2
       - section2.2.15
 
-  - name: 2.2.15 Ensure mail transfer agent is configured for local-only mode (Scored)
+  - name: 2.2.15 - Ensure mail transfer agent is configured for local-only mode
     lineinfile:
       dest: /etc/postfix/main.cf
-      regexp: '^inet_interfaces'
-      line: 'inet_interfaces = localhost'
-      state: present
-      create: no
+      regexp: "^inet_interfaces = all"
+      line: "inet_interfaces = localhost"
     notify: restart postfix
     tags:
-      - section2
-      - section2.2
-      - section2.2.15
+      - level-1
+      - section-2
+      - "2.2.15"
+
+  - name: 2.2.15 - Ensure mail transfer agent is configured for local-only mode
+    shell: service postfix restart
+    tags:
+      - level-1
+      - section-2
+      - "2.2.15"
 
   - command: dpkg-query -s rsync
     register: rsync_installed

@@ -133,6 +133,13 @@
       - section6.2
       - section6.2.8
 
+  - name: 6.2.8 Ensure permissions on /etc/shadow are configured, 6.1.5 Ensure permissions on /etc/gshadow are configured
+    shell: 'chmod 750 /home/ubuntu'
+    tags:
+      - level-1
+      - section-6
+      - "6.2.8"
+
   - debug: var=home_directories_permissions.stdout_lines
 
   - file:

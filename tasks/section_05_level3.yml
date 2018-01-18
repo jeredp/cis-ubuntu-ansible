@@ -45,15 +45,15 @@
       - section5.3
       - section5.3.2
 
-  - name: 5.3.3 Ensure password reuse is limited (Scored)
+  - name: 5.3.3 Ensure password reuse is limited
     lineinfile:
-      name: /etc/pam.d/common-password
-      regexp: '^password\s+sufficient\s+pam_unix.so'
-      line: 'password sufficient pam_unix.so remember=5'
+      path: /etc/pam.d/common-password
+      regexp: "^password sufficient pam_unix.so sha512"
+      line: "password sufficient pam_unix.so remember=5"
     tags:
-      - section5
-      - section5.3
-      - section5.3.3
+      - level-1
+      - section-5
+      - "5.3.3"
 
   - name: 5.3.4 Ensure password hashing algorithm is SHA-512 (Scored)
     lineinfile:

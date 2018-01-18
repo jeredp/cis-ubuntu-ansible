@@ -1,44 +1,104 @@
 ---
 
-  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
-    sysctl:
-      name: net.ipv4.conf.all.accept_source_route
-      value: 0
-      state: present
+  - name: 3.2.1 - add all directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.all.accept_source_route = 0"
     tags:
-      - section3
-      - section3.2
-      - section3.2.1
+      - level-1
+      - section-3
+      - "3.2.1"
 
-  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
-    sysctl:
-      name: net.ipv4.conf.all.accept_redirects
-      value: 0
-      state: present
+  - name: 3.2.1 - add default directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.default.accept_source_route = 0"
     tags:
-      - section3
-      - section3.2
-      - section3.2.2
+      - level-1
+      - section-3
+      - "3.2.1"
 
-  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
-    sysctl:
-      name: net.ipv4.conf.all.secure_redirects
-      value: 0
-      state: present
+  - name: 3.2.1 Ensure packet redirect sending is disabled
+    shell: "sysctl -w net.ipv4.conf.all.accept_source_route=0 && sysctl -w net.ipv4.conf.default.accept_source_route=0 && sysctl -w net.ipv4.route.flush=1"
     tags:
-      - section3
-      - section3.2
-      - section3.2.3
+      - level-1
+      - section-3
+      - "3.2.1"
 
-  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
-    sysctl:
-      name: net.ipv4.conf.all.log_martians
-      value: 1
-      state: present
+  - name: 3.2.2 - add all directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.all.accept_redirects=0"
     tags:
-      - section3
-      - section3.2
-      - section3.2.4
+      - level-1
+      - section-3
+      - "3.2.2"
+
+  - name: 3.2.2 - add default directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.default.accept_redirects=0"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.2"
+      
+  - name: 3.2.2 Ensure packet redirect sending is disabled
+    shell: "sysctl -w net.ipv4.conf.all.accept_redirects=0 && sysctl -w net.ipv4.conf.default.accept_redirects=0 && sysctl -w net.ipv4.route.flush=1"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.2"
+
+  - name: 3.2.3 - add all directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.all.secure_redirects=0"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.3"
+
+  - name: 3.2.3 - add default directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.default.secure_redirects=0"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.3"
+      
+  - name: 3.2.3 Ensure packet redirect sending is disabled
+    shell: "sysctl -w net.ipv4.conf.all.secure_redirects=0 && sysctl -w net.ipv4.conf.default.secure_redirects=0 && sysctl -w net.ipv4.route.flush=1"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.3"
+
+  - name: 3.2.4 - add all directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.all.log_martians=1"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.4"
+
+  - name: 3.2.4 - add default directly to file
+    lineinfile:
+      dest: "/etc/sysctl.conf"
+      line: "net.ipv4.conf.default.log_martians=1"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.4"
+
+  - name: 3.2.4 Ensure packet redirect sending is disabled
+    shell: "sysctl -w net.ipv4.conf.all.log_martians=1 && sysctl -w net.ipv4.conf.default.log_martians=1 && sysctl -w net.ipv4.route.flush=1"
+    tags:
+      - level-1
+      - section-3
+      - "3.2.4"
 
   - name: 3.2.5 Ensure broadcast ICMP requests are ignored (Scored)
     sysctl:

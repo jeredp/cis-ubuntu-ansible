@@ -55,16 +55,35 @@
       - section1.1
       - section1.1.1.5
 
-  - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled (Scored)
+  - name: 1.1.1.6 - Check if CIS modprobe configuration file exists
+    stat:
+      path: /etc/modprobe.d/CIS.conf
+    register: modprobe_1_1_1_6
+    tags:
+      - level-1
+      - section-1
+      - "1.1.1.6"
+
+  - name: 1.1.1.6 - Ensure mounting of squashfs filesystems is disabled
+    copy:
+      dest: /etc/modprobe.d/CIS.conf
+      content: "install squashfs /bin/true\n"
+    when: modprobe_1_1_1_6.stat.exists is not defined or not modprobe_1_1_1_6.stat.exists
+    tags:
+      - level-1
+      - section-1
+      - "1.1.1.6"
+
+  - name: 1.1.1.6 - Ensure mounting of squashfs filesystems is disabled
     lineinfile:
       dest: /etc/modprobe.d/CIS.conf
-      line: 'install squashfs /bin/true'
-      state: present
-      create: yes
+      regexp: "^install squashfs"
+      line: "install squashfs /bin/true"
+    when: modprobe_1_1_1_6.stat.exists is defined and modprobe_1_1_1_6.stat.exists
     tags:
-      - section1
-      - section1.1
-      - section1.1.1.6
+      - level-1
+      - section-1
+      - "1.1.1.6"
 
   - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled (Scored)
     lineinfile:
@@ -77,16 +96,24 @@
       - section1.1
       - section1.1.1.7
 
-  - name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled (Scored)
-    lineinfile:
-      dest: /etc/modprobe.d/CIS.conf
-      line: 'install vfat /bin/true'
-      state: present
-      create: yes
+  - name: 1.1.1.8 - Check if CIS modprobe configuration file exists
+    stat:
+      path: /etc/modprobe.d/CIS.conf
+    register: modprobe_1_1_1_8
     tags:
-      - section1
-      - section1.1
-      - section1.1.1.8
+      - level-1
+      - section-1
+      - "1.1.1.8"
+
+  - name: 1.1.1.8 - Ensure mounting of vfat filesystems is disabled
+    copy:
+      dest: /etc/modprobe.d/CIS.conf
+      line: "install vfat /bin/true"
+    when: modprobe_1_1_1_8.stat.exists is not defined or not modprobe_1_1_1_8.stat.exists
+    tags:
+      - level-1
+      - section-1
+      - "1.1.1.8"
 
   - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
     command: grep '\s/tmp\s' /etc/fstab
@@ -627,14 +654,35 @@
       - section1.1
       - section1.1.16
 
-  - name: 1.1.16 Ensure noexec option set on /dev/shm partition (Scored)
-    command: mount -o remount,noexec /dev/shm
-    ignore_errors: True
-    when: mount_dev_shm_output.rc == 1
+  - name: 1.1.1.6 - Check if CIS modprobe configuration file exists
+    stat:
+      path: /etc/modprobe.d/CIS.conf
+    register: modprobe_1_1_1_6
     tags:
-      - section1
-      - section1.1
-      - section1.1.16
+      - level-1
+      - section-1
+      - "1.1.1.6"
+
+  - name: 1.1.1.6 - Ensure mounting of squashfs filesystems is disabled
+    copy:
+      dest: /etc/modprobe.d/CIS.conf
+      content: "install squashfs /bin/true\n"
+    when: modprobe_1_1_1_6.stat.exists is not defined or not modprobe_1_1_1_6.stat.exists
+    tags:
+      - level-1
+      - section-1
+      - "1.1.1.6"
+
+  - name: 1.1.1.6 - Ensure mounting of squashfs filesystems is disabled
+    lineinfile:
+      dest: /etc/modprobe.d/CIS.conf
+      regexp: "^install squashfs"
+      line: "install squashfs /bin/true"
+    when: modprobe_1_1_1_6.stat.exists is defined and modprobe_1_1_1_6.stat.exists
+    tags:
+      - level-1
+      - section-1
+      - "1.1.1.6"
 
   - name: 1.1.17 Ensure nodev option set on removable media partitions (Not Scored)
     debug:

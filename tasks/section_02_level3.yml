@@ -39,6 +39,13 @@
       - section2.3
       - section2.3.4
 
+  - name: 2.3.4 remove telnet all together
+    shell: dpkg --purge telnet
+    tags:
+      - section2
+      - section2.3
+      - section2.3.4
+
   - name: 2.3.5 Ensure LDAP client is not installed (Scored)
     apt:
       name: ldap-utils
