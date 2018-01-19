@@ -95,7 +95,7 @@
       - section5.4.2
 
   - name: 5.4.2 Ensure system accounts are non-login (Scored)
-    shell: /tmp/nplogin.sh
+    shell: /tmp/nologin.sh
     tags:
       - section5
       - section5.4
